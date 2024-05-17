@@ -1,25 +1,93 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import AuthFormLayout from "./layouts/auth-form-layout/AuthFormLayout";
+import SignInForm from "./pages/sign-in/SignInForm";
+import SignUpForm from "./pages/sign-up/SignUpForm";
+import ChatLayout from "./layouts/chat-layout/ChatLayout";
+import ChatPage from "./pages/chat/ChatPage";
+import { useLazyUserInfoQuery } from "./services/user.service";
+import { useDispatch } from "react-redux";
+import { clearAuthSliceState, setAuthState } from "./store/slices/auth.slice";
+import {
+  getLocalStorageItem,
+  removeLocalStorageItem,
+} from "./utils/localstorage.utils";
+import LoadingPage from "./pages/loading/LoadingPage";
 
 function App() {
+  const [getUserInfo, { isSuccess, isError, isLoading, data }] =
+    useLazyUserInfoQuery();
+
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const accessToken = getLocalStorageItem("accessToken");
+
+    if (accessToken) {
+      getUserInfo({ accessToken });
+    } else {
+      dispatch(clearAuthSliceState());
+      navigate("/");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      const accessToken = getLocalStorageItem("accessToken");
+      const authPayload = { accessToken, ...data };
+      dispatch(setAuthState(authPayload));
+      navigate("/chat");
+    }
+
+    if (isError) {
+      removeLocalStorageItem("accessToken");
+      dispatch(clearAuthSliceState());
+      navigate("/");
+    }
+  }, [isSuccess, isError]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {isLoading && <LoadingPage />}
+
+      {!isLoading && (
+        <Routes>
+          <Route
+            index
+            element={
+              <AuthFormLayout
+                heading="Hi, Welcome Back"
+                subHeading="Enter you credentials to continue"
+              >
+                <SignInForm />
+              </AuthFormLayout>
+            }
+          />
+          <Route
+            path="sign-up"
+            element={
+              <AuthFormLayout
+                heading="Sign up"
+                subHeading="Enter you credentials to continue"
+              >
+                <SignUpForm />
+              </AuthFormLayout>
+            }
+          />
+
+          <Route
+            path="chat"
+            element={
+              <ChatLayout>
+                <ChatPage />
+              </ChatLayout>
+            }
+          />
+        </Routes>
+      )}
+    </>
   );
 }
 
