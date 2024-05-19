@@ -1,8 +1,13 @@
+import { Box } from "@mui/material";
+import OpenAiChatView from "../../components/openai-chat-view/OpenAiChatView";
+import RegularChatView from "../../components/regular-chat-view/RegularChatView";
+
 const ChatPage = () => {
   return (
-    <div>
-      <h1>Chat view</h1>
-    </div>
+    <Box sx={{ display: "flex" }}>
+      <RegularChatView />
+      <OpenAiChatView />
+    </Box>
   );
 };
 

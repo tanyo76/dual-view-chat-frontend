@@ -13,6 +13,7 @@ import {
   removeLocalStorageItem,
 } from "./utils/localstorage.utils";
 import LoadingPage from "./pages/loading/LoadingPage";
+import { askForNotificationPermission } from "./utils/notifications";
 
 function App() {
   const [getUserInfo, { isSuccess, isError, isLoading, data }] =
@@ -24,6 +25,7 @@ function App() {
 
   useEffect(() => {
     const accessToken = getLocalStorageItem("accessToken");
+    askForNotificationPermission();
 
     if (accessToken) {
       getUserInfo({ accessToken });

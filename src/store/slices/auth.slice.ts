@@ -7,6 +7,7 @@ const initialState = {
   lastName: "",
   email: "",
   accessToken: "",
+  id: "",
   loggedIn: false,
 };
 
@@ -19,6 +20,7 @@ const authSlice = createSlice({
       return initialState;
     },
     setAuthState: (state, action: PayloadAction<IAuthInfo>) => {
+      state.id = action.payload.id;
       state.email = action.payload.email;
       state.firstName = action.payload.firstName;
       state.lastName = action.payload.lastName;
