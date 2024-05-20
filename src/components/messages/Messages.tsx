@@ -1,10 +1,10 @@
-import { Box } from "@mui/material";
 import Message from "./Message";
 import { useEffect, useRef } from "react";
 import {
   IMessageObject,
   IMessagesComponentProps,
 } from "../../types/messages.types";
+import { MessagesContainer } from "../common/message.components";
 
 const Messages = ({ messages }: IMessagesComponentProps) => {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
@@ -17,22 +17,11 @@ const Messages = ({ messages }: IMessagesComponentProps) => {
   }, [messages]);
 
   return (
-    <Box
-      ref={messagesContainerRef}
-      sx={{
-        height: "70vh",
-        width: "100%",
-        overflow: "auto",
-        padding: "10px",
-        margin: "10px 0px",
-        backgroundColor: "lightgray",
-        borderRadius: "5px",
-      }}
-    >
+    <MessagesContainer ref={messagesContainerRef}>
       {messages.map((message: IMessageObject) => (
         <Message messageObject={message} key={message.id} />
       ))}
-    </Box>
+    </MessagesContainer>
   );
 };
 

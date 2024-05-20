@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
+import { AppBar, CircularProgress, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useLogoutMutation } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,8 @@ import { getLocalStorageItem } from "../../utils/localstorage.utils";
 import { useEffect } from "react";
 import { clearAuthSliceState } from "../../store/slices/auth.slice";
 import { StoreState } from "../../store";
+import { NormalTextButton } from "../common/button.components";
+import { CenteredBox, ToolBarComponent } from "../common/appBar.components";
 
 const AppBarComponent = () => {
   const { firstName, lastName, email } = useSelector(
@@ -32,20 +34,12 @@ const AppBarComponent = () => {
 
   return (
     <AppBar position="static">
-      <Toolbar
-        variant="regular"
-        sx={{
-          backgroundColor: "#151E3D",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
+      <ToolBarComponent variant="regular">
         <Typography variant="h6" color="inherit" component="div">
           {firstName} {lastName}
         </Typography>
 
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <CenteredBox sx={{ display: "flex", alignItems: "center" }}>
           <Typography
             variant="subtitle1"
             color="inherit"
@@ -54,15 +48,15 @@ const AppBarComponent = () => {
           >
             {email}
           </Typography>
-          <Button
+          <NormalTextButton
             variant="contained"
             onClick={logoutHandler}
             disabled={isLoading}
           >
-            {isLoading ? "Logging out..." : "Logout"}
-          </Button>
-        </Box>
-      </Toolbar>
+            {isLoading ? <CircularProgress /> : "Logout"}
+          </NormalTextButton>
+        </CenteredBox>
+      </ToolBarComponent>
     </AppBar>
   );
 };

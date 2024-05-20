@@ -1,12 +1,12 @@
-import { Alert } from "@mui/material";
 import { IFormAlertProps } from "../../types/common";
+import { FormAlertComponent } from "../common/feedback.components";
 
 const FormAlert = (props: IFormAlertProps) => {
   return (
-    <Alert severity={props.severity} style={{ padding: 0 }}>
+    <FormAlertComponent severity={props.severity}>
       {props.message}
       {props.children}
-    </Alert>
+    </FormAlertComponent>
   );
 };
 

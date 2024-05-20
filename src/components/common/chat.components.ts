@@ -10,3 +10,5 @@ export const ChatLayoutContainer = styled(Box)({
 });
 
 export const ChatContainer = styled(Box)({ display: "flex" });
+
+export const WidthBox = styled(Box)({ width: "90%" });

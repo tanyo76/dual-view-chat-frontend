@@ -3,13 +3,16 @@ import { socket } from "../../utils/socket";
 import LoadingPage from "../../pages/loading/LoadingPage";
 import ChatViewLayout from "../../layouts/view-layout/ChatViewLayout";
 import Messages from "../messages/Messages";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import { showNotification } from "../../utils/notifications";
 import { toMessageObjects } from "../../utils/messages";
 import { useSelector } from "react-redux";
 import { IChatViewProps } from "../../types/chat.types";
 import { StoreState } from "../../store";
 import { IMessageObject } from "../../types/messages.types";
+import { NormalTextButton } from "../common/button.components";
+import { WidthBox } from "../common/chat.components";
+import { CenteredBox } from "../common/appBar.components";
 
 const RegularChatView = ({
   messagesData,
@@ -80,17 +83,12 @@ const RegularChatView = ({
       {isLoading && <LoadingPage />}
 
       {!isLoading && (
-        <Box sx={{ width: "90%" }}>
+        <WidthBox>
           <h1>Regular Chat View</h1>
 
           <Messages messages={messages} />
 
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
+          <CenteredBox>
             <TextField
               fullWidth
               size="small"
@@ -99,15 +97,15 @@ const RegularChatView = ({
               value={message}
               onKeyDown={onEnterKeySendHandler}
             />
-            <Button
+            <NormalTextButton
               onClick={sendMessage}
               variant="contained"
               sx={{ marginLeft: "10px" }}
             >
-              send
-            </Button>
-          </Box>
-        </Box>
+              Send
+            </NormalTextButton>
+          </CenteredBox>
+        </WidthBox>
       )}
     </ChatViewLayout>
   );
