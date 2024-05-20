@@ -4,7 +4,8 @@ import { useSignUpMutation } from "../../services/auth.service";
 import { SubmitHandler, useForm } from "react-hook-form";
 import FormErrorMessage from "../../components/feedback/FormErrorMessage";
 import FormAlert from "../../components/feedback/FormAlert";
-import { ESeverity, ISignUpFormInput } from "../../types/auth.types";
+import { ISignUpFormInput } from "../../types/auth.types";
+import { EAlertSeverity } from "../../types/common";
 
 const SignUpForm = () => {
   const [signUp, { isLoading, isError, isSuccess, error, data }] =
@@ -97,14 +98,14 @@ const SignUpForm = () => {
 
         {isError && (
           <FormAlert
-            severity={ESeverity.error}
+            severity={EAlertSeverity.error}
             message={(error as any).data.message}
           />
         )}
 
         {isSuccess && (
           <FormAlert
-            severity={ESeverity.success}
+            severity={EAlertSeverity.success}
             message={`${data.msg}`}
             children={<NavLink to={"/"}>Sign in</NavLink>}
           />

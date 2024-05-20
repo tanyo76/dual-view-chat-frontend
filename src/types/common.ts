@@ -1,7 +1,12 @@
-import { ESeverity } from "./auth.types";
+export enum EAlertSeverity {
+  error = "error",
+  info = "info",
+  success = "success",
+  warning = "warning",
+}
 
 export interface IFormAlertProps {
-  severity: ESeverity;
+  severity: EAlertSeverity;
   message: string;
   children?: any;
 }

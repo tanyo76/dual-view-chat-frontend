@@ -10,10 +10,3 @@ export interface ISignUpFormInput {
   password: string;
   confirmPassword: string;
 }
-
-export enum ESeverity {
-  error = "error",
-  info = "info",
-  success = "success",
-  warning = "warning",
-}

@@ -15,7 +15,8 @@ import { useEffect, useState } from "react";
 import { setLocalStorageItem } from "../../utils/localstorage.utils";
 import { useDispatch } from "react-redux";
 import { setAuthState } from "../../store/slices/auth.slice";
-import { ESeverity, ISignInFormInput } from "../../types/auth.types";
+import { ISignInFormInput } from "../../types/auth.types";
+import { EAlertSeverity } from "../../types/common";
 
 const SignInForm = () => {
   const [login, { isLoading, isSuccess, isError, data, error }] =
@@ -93,7 +94,7 @@ const SignInForm = () => {
 
         {isError && (
           <FormAlert
-            severity={ESeverity.error}
+            severity={EAlertSeverity.error}
             message={(error as any).data.message}
           />
         )}
