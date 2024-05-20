@@ -31,6 +31,7 @@ const ChatPage = () => {
         email={email}
         isLoading={isLoading}
         chatViewType={EChatViewType.regular}
+        title="Regular Chat View"
       />
       <ChatView
         messagesData={data}
@@ -39,6 +40,16 @@ const ChatPage = () => {
         email={email}
         isLoading={isLoading}
         chatViewType={EChatViewType.openAi}
+        title="OpenAI Chat View"
+      />
+      <ChatView
+        messagesData={data}
+        isSuccess={isSuccess}
+        id={id}
+        email={email}
+        isLoading={isLoading}
+        chatViewType={EChatViewType.openAi}
+        title="OpenAI Chat View"
       />
     </ChatContainer>
   );

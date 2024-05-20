@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import ChatViewLayout from "../../layouts/view-layout/ChatViewLayout";
 import LoadingPage from "../../pages/loading/LoadingPage";
 import { CenteredBox } from "../common/appBar.components";
@@ -24,6 +24,7 @@ const ChatView = ({
   email,
   isLoading,
   chatViewType,
+  title,
 }: IChatViewProps) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<IMessageObject[]>([]);
@@ -98,7 +99,7 @@ const ChatView = ({
 
       {!isLoading && (
         <WidthBox>
-          <h1>Open AI Chat View</h1>
+          <Typography variant="h6">{title}</Typography>
           <Messages messages={messages} />
 
           <CenteredBox>

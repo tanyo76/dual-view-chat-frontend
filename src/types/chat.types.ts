@@ -7,6 +7,7 @@ export interface IChatViewProps {
   email: string;
   isLoading: boolean;
   chatViewType: EChatViewType;
+  title?: string;
 }
 
 export enum EChatViewType {
