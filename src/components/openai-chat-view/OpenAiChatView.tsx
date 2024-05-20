@@ -7,6 +7,9 @@ import { Box, Button, TextField } from "@mui/material";
 import { showNotification } from "../../utils/notifications";
 import { toMessageWithResponseObjects } from "../../utils/messages";
 import { useSelector } from "react-redux";
+import { IMessageObject } from "../../types/messages.types";
+import { IChatViewProps } from "../../types/chat.types";
+import { StoreState } from "../../store";
 
 const OpenAiChatView = ({
   messagesData,
@@ -14,11 +17,11 @@ const OpenAiChatView = ({
   isLoading,
   id,
   email,
-}: any) => {
+}: IChatViewProps) => {
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([] as any);
+  const [messages, setMessages] = useState<IMessageObject[]>([]);
 
-  const { accessToken } = useSelector((store: any) => store.auth);
+  const { accessToken } = useSelector((store: StoreState) => store.auth);
 
   useEffect(() => {
     if (isSuccess) {
@@ -37,9 +40,9 @@ const OpenAiChatView = ({
   }, [accessToken]);
 
   useEffect(() => {
-    const onMessageHandler = (message: any) => {
+    const onMessageHandler = (message: IMessageObject) => {
       showNotification(message.message);
-      setMessages((prevState: string[]) => [...prevState, message]);
+      setMessages((prevState: IMessageObject[]) => [...prevState, message]);
     };
 
     socket.on("message", onMessageHandler);

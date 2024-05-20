@@ -22,4 +22,6 @@ const store = configureStore({
 
 setupListeners(store.dispatch);
 
+export type StoreState = ReturnType<typeof store.getState>;
+
 export default store;

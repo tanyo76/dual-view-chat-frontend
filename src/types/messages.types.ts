@@ -6,3 +6,7 @@ export interface IMessageObject {
 export interface IMessageComponentProps {
   messageObject: IMessageObject;
 }
+
+export interface IMessagesComponentProps {
+  messages: IMessageObject[];
+}

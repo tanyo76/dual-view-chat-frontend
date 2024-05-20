@@ -4,9 +4,12 @@ import RegularChatView from "../../components/regular-chat-view/RegularChatView"
 import { useLazyGetMessagesQuery } from "../../services/message.service";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { StoreState } from "../../store";
 
 const ChatPage = () => {
-  const { id, email, accessToken } = useSelector((store: any) => store.auth);
+  const { id, email, accessToken } = useSelector(
+    (store: StoreState) => store.auth
+  );
 
   const [getMessages, { isLoading, isError, isSuccess, data }] =
     useLazyGetMessagesQuery();

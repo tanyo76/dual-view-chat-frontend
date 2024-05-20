@@ -7,6 +7,8 @@ import { Box, Button, TextField } from "@mui/material";
 import { showNotification } from "../../utils/notifications";
 import { toMessageObjects } from "../../utils/messages";
 import { useSelector } from "react-redux";
+import { IChatViewProps } from "../../types/chat.types";
+import { StoreState } from "../../store";
 
 const RegularChatView = ({
   messagesData,
@@ -14,11 +16,11 @@ const RegularChatView = ({
   id,
   email,
   isLoading,
-}: any) => {
+}: IChatViewProps) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([] as any);
 
-  const { accessToken } = useSelector((store: any) => store.auth);
+  const { accessToken } = useSelector((store: StoreState) => store.auth);
 
   useEffect(() => {
     if (isSuccess) {

@@ -1,9 +1,12 @@
 import { Box } from "@mui/material";
 import Message from "./Message";
 import { useEffect, useRef } from "react";
-import { IMessageObject } from "../../types/messages.types";
+import {
+  IMessageObject,
+  IMessagesComponentProps,
+} from "../../types/messages.types";
 
-const Messages = ({ messages }: any) => {
+const Messages = ({ messages }: IMessagesComponentProps) => {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

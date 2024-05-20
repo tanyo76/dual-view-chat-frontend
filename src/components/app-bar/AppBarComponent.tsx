@@ -1,21 +1,15 @@
-import {
-  AppBar,
-  Box,
-  Button,
-  IconButton,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useLogoutMutation } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { getLocalStorageItem } from "../../utils/localstorage.utils";
 import { useEffect } from "react";
 import { clearAuthSliceState } from "../../store/slices/auth.slice";
+import { StoreState } from "../../store";
 
 const AppBarComponent = () => {
   const { firstName, lastName, email } = useSelector(
-    (store: any) => store.auth
+    (store: StoreState) => store.auth
   );
 
   const [logout, { isSuccess, isError, isLoading }] = useLogoutMutation();
