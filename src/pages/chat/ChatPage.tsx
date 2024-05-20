@@ -42,15 +42,6 @@ const ChatPage = () => {
         chatViewType={EChatViewType.openAi}
         title="OpenAI Chat View"
       />
-      <ChatView
-        messagesData={data}
-        isSuccess={isSuccess}
-        id={id}
-        email={email}
-        isLoading={isLoading}
-        chatViewType={EChatViewType.openAi}
-        title="OpenAI Chat View"
-      />
     </ChatContainer>
   );
 };

@@ -106,7 +106,7 @@ const ChatView = ({
             <TextField
               fullWidth
               size="small"
-              placeholder="Enter message..."
+              placeholder="Enter a message..."
               onChange={onMessageChangeHandler}
               value={message}
               onKeyDown={onEnterKeySendHandler}
