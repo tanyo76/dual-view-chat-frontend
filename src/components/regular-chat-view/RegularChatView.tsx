@@ -9,6 +9,7 @@ import { toMessageObjects } from "../../utils/messages";
 import { useSelector } from "react-redux";
 import { IChatViewProps } from "../../types/chat.types";
 import { StoreState } from "../../store";
+import { IMessageObject } from "../../types/messages.types";
 
 const RegularChatView = ({
   messagesData,
@@ -18,7 +19,7 @@ const RegularChatView = ({
   isLoading,
 }: IChatViewProps) => {
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([] as any);
+  const [messages, setMessages] = useState<IMessageObject[]>([]);
 
   const { accessToken } = useSelector((store: StoreState) => store.auth);
 
@@ -39,9 +40,9 @@ const RegularChatView = ({
   }, [accessToken]);
 
   useEffect(() => {
-    const onMessageHandler = (message: any) => {
+    const onMessageHandler = (message: IMessageObject) => {
       showNotification(message.message);
-      setMessages((prevState: any) => [...prevState, message]);
+      setMessages((prevState) => [...prevState, message]);
     };
 
     socket.on("message", onMessageHandler);

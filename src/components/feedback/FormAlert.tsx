@@ -1,11 +1,7 @@
 import { Alert } from "@mui/material";
-import { ESeverity } from "../../types/auth.types";
+import { IFormAlertProps } from "../../types/common";
 
-const FormAlert = (props: {
-  severity: ESeverity;
-  message: string;
-  children?: any;
-}) => {
+const FormAlert = (props: IFormAlertProps) => {
   return (
     <Alert severity={props.severity} style={{ padding: 0 }}>
       {props.message}
