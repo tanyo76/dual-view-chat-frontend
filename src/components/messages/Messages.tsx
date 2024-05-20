@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import Message from "./Message";
 import { useEffect, useRef } from "react";
+import { IMessageObject } from "../../types/messages.types";
 
 const Messages = ({ messages }: any) => {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
@@ -25,8 +26,8 @@ const Messages = ({ messages }: any) => {
         borderRadius: "5px",
       }}
     >
-      {messages.map((message: string) => (
-        <Message message={message} />
+      {messages.map((message: IMessageObject) => (
+        <Message messageObject={message} key={message.id} />
       ))}
     </Box>
   );

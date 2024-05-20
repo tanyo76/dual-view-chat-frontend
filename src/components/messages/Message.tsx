@@ -1,7 +1,8 @@
 import { Box } from "@mui/material";
+import { IMessageComponentProps } from "../../types/messages.types";
 
-const Message = ({ message }: any) => {
-  const [name, messageString] = message.split(": ");
+const Message = ({ messageObject }: IMessageComponentProps) => {
+  const [name, messageString] = messageObject.message.split(": ");
 
   return (
     <Box

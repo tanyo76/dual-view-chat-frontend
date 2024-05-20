@@ -18,4 +18,4 @@ export const messageApi = createApi({
   }),
 });
 
-export const { useGetMessagesQuery } = messageApi;
+export const { useGetMessagesQuery, useLazyGetMessagesQuery } = messageApi;

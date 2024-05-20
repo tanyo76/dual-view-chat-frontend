@@ -22,9 +22,9 @@ function App() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+  const accessToken = getLocalStorageItem("accessToken");
 
   useEffect(() => {
-    const accessToken = getLocalStorageItem("accessToken");
     askForNotificationPermission();
 
     if (accessToken) {
@@ -37,7 +37,6 @@ function App() {
 
   useEffect(() => {
     if (isSuccess) {
-      const accessToken = getLocalStorageItem("accessToken");
       const authPayload = { accessToken, ...data };
       dispatch(setAuthState(authPayload));
       navigate("/chat");

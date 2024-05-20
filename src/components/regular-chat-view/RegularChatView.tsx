@@ -1,38 +1,46 @@
 import { useEffect, useState } from "react";
 import { socket } from "../../utils/socket";
-import { useSelector } from "react-redux";
-import { useGetMessagesQuery } from "../../services/message.service";
 import LoadingPage from "../../pages/loading/LoadingPage";
 import ChatViewLayout from "../../layouts/view-layout/ChatViewLayout";
 import Messages from "../messages/Messages";
 import { Box, Button, TextField } from "@mui/material";
 import { showNotification } from "../../utils/notifications";
+import { toMessageObjects } from "../../utils/messages";
+import { useSelector } from "react-redux";
 
-const RegularChatView = () => {
+const RegularChatView = ({
+  messagesData,
+  isSuccess,
+  id,
+  email,
+  isLoading,
+}: any) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([] as any);
-  const { id, email, accessToken } = useSelector((store: any) => store.auth);
 
-  const { isLoading, isError, isSuccess, data } = useGetMessagesQuery({
-    accessToken,
-  });
+  const { accessToken } = useSelector((store: any) => store.auth);
 
   useEffect(() => {
     if (isSuccess) {
-      const messages = data.map(
-        (message: any) => `${message.user.email}: ${message.message}`
-      );
-      setMessages(messages);
+      toMessageObjects(messagesData, setMessages);
     }
   }, [isSuccess]);
 
   useEffect(() => {
-    const onMessageHandler = (message: string) => {
-      showNotification(message);
+    if (accessToken) {
+      socket.io.opts.extraHeaders = {
+        authorization: `Bearer ${accessToken}`,
+      };
+
+      socket.open();
+    }
+  }, [accessToken]);
+
+  useEffect(() => {
+    const onMessageHandler = (message: any) => {
+      showNotification(message.message);
       setMessages((prevState: any) => [...prevState, message]);
     };
-
-    socket.connect();
 
     socket.on("message", onMessageHandler);
 
