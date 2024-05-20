@@ -6,13 +6,10 @@ export interface IChatViewProps {
   id: string;
   email: string;
   isLoading: boolean;
+  chatViewType: EChatViewType;
 }
 
-export interface IChatViewTemplateProps {
-  isLoading: boolean;
-  messages: IMessageObject[];
-  inputMessage: string;
-  sendMessage: any;
-  onMessageChangeHandler: any;
-  onEnterKeySendHandler: any;
+export enum EChatViewType {
+  regular = "REGULAR",
+  openAi = "OPENAI",
 }

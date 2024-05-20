@@ -5,16 +5,93 @@ import { CenteredBox } from "../common/appBar.components";
 import { WidthBox } from "../common/chat.components";
 import Messages from "./Messages";
 import { NormalTextButton } from "../common/button.components";
-import { IChatViewTemplateProps } from "../../types/chat.types";
+import { EChatViewType, IChatViewProps } from "../../types/chat.types";
+import { socket } from "../../utils/socket";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { IMessageObject } from "../../types/messages.types";
+import { StoreState } from "../../store";
+import { showNotification } from "../../utils/notifications";
+import {
+  toMessageObjects,
+  toMessageWithResponseObjects,
+} from "../../utils/messages";
 
 const ChatView = ({
+  messagesData,
+  isSuccess,
+  id,
+  email,
   isLoading,
-  messages,
-  inputMessage,
-  sendMessage,
-  onMessageChangeHandler,
-  onEnterKeySendHandler,
-}: IChatViewTemplateProps) => {
+  chatViewType,
+}: IChatViewProps) => {
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState<IMessageObject[]>([]);
+
+  const { accessToken } = useSelector((store: StoreState) => store.auth);
+
+  useEffect(() => {
+    if (isSuccess) {
+      if (chatViewType === EChatViewType.openAi) {
+        toMessageWithResponseObjects(messagesData, setMessages);
+      }
+
+      if (chatViewType === EChatViewType.regular) {
+        toMessageObjects(messagesData, setMessages);
+      }
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (accessToken) {
+      socket.io.opts.extraHeaders = {
+        authorization: `Bearer ${accessToken}`,
+      };
+
+      socket.open();
+    }
+  }, [accessToken]);
+
+  useEffect(() => {
+    const onMessageHandler = (message: IMessageObject) => {
+      showNotification(message.message);
+      setMessages((prevState: IMessageObject[]) => [...prevState, message]);
+    };
+
+    socket.on("message", onMessageHandler);
+
+    if (chatViewType === EChatViewType.openAi) {
+      socket.on("openAiMessage", onMessageHandler);
+    }
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  const sendMessage = () => {
+    if (message.length) {
+      const messagePayload = {
+        id,
+        email,
+        message,
+      };
+      socket.emit("message", messagePayload);
+      setMessage("");
+    }
+  };
+
+  const onMessageChangeHandler = (e: any) => {
+    const value = e.target.value;
+    setMessage(value);
+  };
+
+  const onEnterKeySendHandler = (e: any) => {
+    const key = e.key;
+
+    if (key === "Enter") sendMessage();
+  };
+
   return (
     <ChatViewLayout>
       {isLoading && <LoadingPage />}
@@ -30,7 +107,7 @@ const ChatView = ({
               size="small"
               placeholder="Enter message..."
               onChange={onMessageChangeHandler}
-              value={inputMessage}
+              value={message}
               onKeyDown={onEnterKeySendHandler}
             />
             <NormalTextButton

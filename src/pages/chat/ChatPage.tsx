@@ -1,10 +1,10 @@
-import OpenAiChatView from "../../components/openai-chat-view/OpenAiChatView";
-import RegularChatView from "../../components/regular-chat-view/RegularChatView";
 import { useLazyGetMessagesQuery } from "../../services/message.service";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { StoreState } from "../../store";
 import { ChatContainer } from "../../components/common/chat.components";
+import ChatView from "../../components/messages/ChatView";
+import { EChatViewType } from "../../types/chat.types";
 
 const ChatPage = () => {
   const { id, email, accessToken } = useSelector(
@@ -24,19 +24,21 @@ const ChatPage = () => {
 
   return (
     <ChatContainer>
-      <RegularChatView
+      <ChatView
         messagesData={data}
         isSuccess={isSuccess}
         id={id}
         email={email}
         isLoading={isLoading}
+        chatViewType={EChatViewType.regular}
       />
-      <OpenAiChatView
+      <ChatView
         messagesData={data}
         isSuccess={isSuccess}
         id={id}
         email={email}
         isLoading={isLoading}
+        chatViewType={EChatViewType.openAi}
       />
     </ChatContainer>
   );
