@@ -7,3 +7,12 @@ export interface IChatViewProps {
   email: string;
   isLoading: boolean;
 }
+
+export interface IChatViewTemplateProps {
+  isLoading: boolean;
+  messages: IMessageObject[];
+  inputMessage: string;
+  sendMessage: any;
+  onMessageChangeHandler: any;
+  onEnterKeySendHandler: any;
+}

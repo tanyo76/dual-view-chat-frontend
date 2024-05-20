@@ -13,6 +13,7 @@ import { IMessageObject } from "../../types/messages.types";
 import { NormalTextButton } from "../common/button.components";
 import { WidthBox } from "../common/chat.components";
 import { CenteredBox } from "../common/appBar.components";
+import ChatView from "../messages/ChatView";
 
 const RegularChatView = ({
   messagesData,
@@ -79,35 +80,14 @@ const RegularChatView = ({
   };
 
   return (
-    <ChatViewLayout>
-      {isLoading && <LoadingPage />}
-
-      {!isLoading && (
-        <WidthBox>
-          <h1>Regular Chat View</h1>
-
-          <Messages messages={messages} />
-
-          <CenteredBox>
-            <TextField
-              fullWidth
-              size="small"
-              placeholder="Enter message..."
-              onChange={onMessageChangeHandler}
-              value={message}
-              onKeyDown={onEnterKeySendHandler}
-            />
-            <NormalTextButton
-              onClick={sendMessage}
-              variant="contained"
-              sx={{ marginLeft: "10px" }}
-            >
-              Send
-            </NormalTextButton>
-          </CenteredBox>
-        </WidthBox>
-      )}
-    </ChatViewLayout>
+    <ChatView
+      isLoading={isLoading}
+      messages={messages}
+      inputMessage={message}
+      sendMessage={sendMessage}
+      onMessageChangeHandler={onMessageChangeHandler}
+      onEnterKeySendHandler={onEnterKeySendHandler}
+    />
   );
 };
 
