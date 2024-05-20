@@ -1,20 +1,7 @@
-import { Box } from "@mui/material";
+import { ChatLayoutContainer } from "../../components/common/chat.components";
 
 const ChatViewLayout = ({ children }: any) => {
-  return (
-    <Box
-      sx={{
-        width: "50%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "88vh",
-        padding: "10px",
-      }}
-    >
-      {children}
-    </Box>
-  );
+  return <ChatLayoutContainer>{children}</ChatLayoutContainer>;
 };
 
 export default ChatViewLayout;
