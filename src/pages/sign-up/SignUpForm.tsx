@@ -1,4 +1,4 @@
-import { Button, CircularProgress, TextField } from "@mui/material";
+import { CircularProgress, TextField } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { useSignUpMutation } from "../../services/auth.service";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -6,6 +6,7 @@ import FormErrorMessage from "../../components/feedback/FormErrorMessage";
 import FormAlert from "../../components/feedback/FormAlert";
 import { ISignUpFormInput } from "../../types/auth.types";
 import { EAlertSeverity } from "../../types/common";
+import { NormalTextButton } from "../../components/common/button.components";
 
 const SignUpForm = () => {
   const [signUp, { isLoading, isError, isSuccess, error, data }] =
@@ -114,14 +115,13 @@ const SignUpForm = () => {
         {isLoading ? (
           <CircularProgress />
         ) : (
-          <Button
+          <NormalTextButton
             type="submit"
             disabled={isLoading}
             variant="contained"
-            style={{ textTransform: "none" }}
           >
             Sign up
-          </Button>
+          </NormalTextButton>
         )}
 
         <NavLink to="/">Already have an account?</NavLink>

@@ -8,3 +8,5 @@ export const ChatLayoutContainer = styled(Box)({
   height: "88vh",
   padding: "10px",
 });
+
+export const ChatContainer = styled(Box)({ display: "flex" });

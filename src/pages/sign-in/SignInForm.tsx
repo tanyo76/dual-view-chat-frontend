@@ -1,5 +1,4 @@
 import {
-  Button,
   CircularProgress,
   IconButton,
   InputAdornment,
@@ -17,6 +16,7 @@ import { useDispatch } from "react-redux";
 import { setAuthState } from "../../store/slices/auth.slice";
 import { ISignInFormInput } from "../../types/auth.types";
 import { EAlertSeverity } from "../../types/common";
+import { NormalTextButton } from "../../components/common/button.components";
 
 const SignInForm = () => {
   const [login, { isLoading, isSuccess, isError, data, error }] =
@@ -102,14 +102,13 @@ const SignInForm = () => {
         {isLoading ? (
           <CircularProgress />
         ) : (
-          <Button
+          <NormalTextButton
             type="submit"
             disabled={isLoading}
             variant="contained"
-            style={{ textTransform: "none" }}
           >
             Sign in
-          </Button>
+          </NormalTextButton>
         )}
 
         <NavLink to="/sign-up">Don't have an account?</NavLink>

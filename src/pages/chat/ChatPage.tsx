@@ -1,10 +1,10 @@
-import { Box } from "@mui/material";
 import OpenAiChatView from "../../components/openai-chat-view/OpenAiChatView";
 import RegularChatView from "../../components/regular-chat-view/RegularChatView";
 import { useLazyGetMessagesQuery } from "../../services/message.service";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { StoreState } from "../../store";
+import { ChatContainer } from "../../components/common/chat.components";
 
 const ChatPage = () => {
   const { id, email, accessToken } = useSelector(
@@ -23,7 +23,7 @@ const ChatPage = () => {
   }, [accessToken]);
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <ChatContainer>
       <RegularChatView
         messagesData={data}
         isSuccess={isSuccess}
@@ -38,7 +38,7 @@ const ChatPage = () => {
         email={email}
         isLoading={isLoading}
       />
-    </Box>
+    </ChatContainer>
   );
 };
 
