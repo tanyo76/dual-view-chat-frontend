@@ -2,6 +2,17 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## .env.local
+
+The react app will use .env.local file in order to get it's environment variables.
+Create the .env.local file and populate the needed environment variables from the .env.example file.
+
+## Install dependencies
+
+## `npm install`
+
+Installs all the 3rd party packages.
+
 ## Available Scripts
 
 In the project directory, you can run:
