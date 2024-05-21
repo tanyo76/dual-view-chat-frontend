@@ -9,6 +9,8 @@ Create the .env.local file and populate the needed environment variables from th
 
 ## Install dependencies
 
+In the project directory, you can run:
+
 ## `npm install`
 
 Installs all the 3rd party packages.
