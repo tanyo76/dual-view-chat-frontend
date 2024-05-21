@@ -9,6 +9,8 @@ const initialState = {
   accessToken: "",
   id: "",
   loggedIn: false,
+  disableChatActions: false,
+  chatErrorObject: { isError: false, message: "" },
 };
 
 const authSlice = createSlice({
@@ -27,8 +29,27 @@ const authSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.loggedIn = true;
     },
+    disableChatInputs: (state) => {
+      state.disableChatActions = true;
+    },
+    enableChatInputs: (state) => {
+      state.disableChatActions = false;
+    },
+    showChatErrorMessage: (state, action: PayloadAction<string>) => {
+      state.chatErrorObject = { isError: true, message: action.payload };
+    },
+    hideChatErrorMessage: (state) => {
+      state.chatErrorObject = { isError: false, message: "" };
+    },
   },
 });
 
-export const { setAuthState, clearAuthSliceState } = authSlice.actions;
+export const {
+  setAuthState,
+  clearAuthSliceState,
+  enableChatInputs,
+  disableChatInputs,
+  showChatErrorMessage,
+  hideChatErrorMessage,
+} = authSlice.actions;
 export default authSlice.reducer;

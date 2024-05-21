@@ -1,4 +1,5 @@
 import { Box, styled } from "@mui/material";
+import "../../styles/colors.scss";
 
 export const MessagesContainer = styled(Box)({
   height: "70vh",
@@ -6,7 +7,7 @@ export const MessagesContainer = styled(Box)({
   overflow: "auto",
   padding: "10px",
   margin: "10px 0px",
-  backgroundColor: "lightgray",
+  backgroundColor: "#E5E5E5",
   borderRadius: "5px",
 });
 
@@ -14,7 +15,7 @@ export const MessageContainer = styled(Box)({
   margin: "5px 0px",
   padding: "10px",
   borderRadius: "5px",
-  backgroundColor: "lightgray",
+  backgroundColor: "#C5C6D0",
 });
 
 export const MessageSender = styled("p")({ fontWeight: "bold" });

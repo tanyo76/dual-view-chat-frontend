@@ -14,3 +14,9 @@ export enum EChatViewType {
   regular = "REGULAR",
   openAi = "OPENAI",
 }
+
+export interface IChatErrorMessageProps {
+  message: string;
+  openState: boolean;
+  onClose: any;
+}

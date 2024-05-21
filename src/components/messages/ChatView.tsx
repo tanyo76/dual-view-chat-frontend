@@ -8,7 +8,7 @@ import { NormalTextButton } from "../common/button.components";
 import { EChatViewType, IChatViewProps } from "../../types/chat.types";
 import { socket } from "../../utils/socket";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IMessageObject } from "../../types/messages.types";
 import { StoreState } from "../../store";
 import { showNotification } from "../../utils/notifications";
@@ -16,6 +16,13 @@ import {
   toMessageObjects,
   toMessageWithResponseObjects,
 } from "../../utils/messages";
+import {
+  disableChatInputs,
+  enableChatInputs,
+  hideChatErrorMessage,
+  showChatErrorMessage,
+} from "../../store/slices/auth.slice";
+import { ChatErrorMessage } from "../feedback/ChatErrorMessage";
 
 const ChatView = ({
   messagesData,
@@ -29,7 +36,15 @@ const ChatView = ({
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<IMessageObject[]>([]);
 
-  const { accessToken } = useSelector((store: StoreState) => store.auth);
+  const { accessToken, disableChatActions, chatErrorObject } = useSelector(
+    (store: StoreState) => store.auth
+  );
+
+  const dispatch = useDispatch();
+
+  const closeChatErrorMessageHandler = () => {
+    dispatch(hideChatErrorMessage());
+  };
 
   useEffect(() => {
     if (isSuccess) {
@@ -53,16 +68,46 @@ const ChatView = ({
     }
   }, [accessToken]);
 
+  const hideRespondingElement = () => {
+    setMessages((prevState: IMessageObject[]) =>
+      prevState.filter((message) => message.id !== "1")
+    );
+  };
+
   useEffect(() => {
     const onMessageHandler = (message: IMessageObject) => {
       showNotification(message.message);
       setMessages((prevState: IMessageObject[]) => [...prevState, message]);
     };
 
+    const onOpenAiMessage = (message: IMessageObject) => {
+      setMessages((prevState: IMessageObject[]) =>
+        [...prevState, message].filter((message) => message.id !== "1")
+      );
+      showNotification(message.message);
+      dispatch(enableChatInputs());
+      closeChatErrorMessageHandler();
+    };
+
     socket.on("message", onMessageHandler);
+    socket.on("error", (error: any) => {
+      const message = error.response;
+      dispatch(showChatErrorMessage(message));
+      dispatch(enableChatInputs());
+      hideRespondingElement();
+    });
 
     if (chatViewType === EChatViewType.openAi) {
-      socket.on("openAiMessage", onMessageHandler);
+      socket.on("openAiMessage", onOpenAiMessage);
+    }
+
+    if (chatViewType === EChatViewType.openAi) {
+      socket.on("responding", () => {
+        setMessages((prevState: IMessageObject[]) => [
+          ...prevState,
+          { id: "1", message: "Responding..." },
+        ]);
+      });
     }
 
     return () => {
@@ -78,6 +123,7 @@ const ChatView = ({
         message,
       };
       socket.emit("message", messagePayload);
+      dispatch(disableChatInputs());
       setMessage("");
     }
   };
@@ -102,9 +148,18 @@ const ChatView = ({
           <Typography variant="h6">{title}</Typography>
           <Messages messages={messages} />
 
+          {chatErrorObject.isError && (
+            <ChatErrorMessage
+              message={chatErrorObject.message}
+              openState={chatErrorObject.isError}
+              onClose={closeChatErrorMessageHandler}
+            />
+          )}
+
           <CenteredBox>
             <TextField
               fullWidth
+              disabled={disableChatActions}
               size="small"
               placeholder="Enter a message..."
               onChange={onMessageChangeHandler}
@@ -112,6 +167,7 @@ const ChatView = ({
               onKeyDown={onEnterKeySendHandler}
             />
             <NormalTextButton
+              disabled={disableChatActions}
               onClick={sendMessage}
               variant="contained"
               sx={{ marginLeft: "10px" }}

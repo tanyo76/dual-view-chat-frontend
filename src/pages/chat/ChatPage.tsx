@@ -5,13 +5,15 @@ import { StoreState } from "../../store";
 import { ChatContainer } from "../../components/common/chat.components";
 import ChatView from "../../components/messages/ChatView";
 import { EChatViewType } from "../../types/chat.types";
+import { Alert } from "@mui/material";
+import { EAlertSeverity } from "../../types/common";
 
 const ChatPage = () => {
   const { id, email, accessToken } = useSelector(
     (store: StoreState) => store.auth
   );
 
-  const [getMessages, { isLoading, isError, isSuccess, data }] =
+  const [getMessages, { isLoading, isError, isSuccess, data, error }] =
     useLazyGetMessagesQuery();
 
   useEffect(() => {
@@ -23,26 +25,36 @@ const ChatPage = () => {
   }, [accessToken]);
 
   return (
-    <ChatContainer>
-      <ChatView
-        messagesData={data}
-        isSuccess={isSuccess}
-        id={id}
-        email={email}
-        isLoading={isLoading}
-        chatViewType={EChatViewType.regular}
-        title="Regular Chat View"
-      />
-      <ChatView
-        messagesData={data}
-        isSuccess={isSuccess}
-        id={id}
-        email={email}
-        isLoading={isLoading}
-        chatViewType={EChatViewType.openAi}
-        title="OpenAI Chat View"
-      />
-    </ChatContainer>
+    <>
+      {isError && (
+        <Alert severity={EAlertSeverity.error}>
+          {(error as any).data.message}
+        </Alert>
+      )}
+
+      {isSuccess && (
+        <ChatContainer>
+          <ChatView
+            messagesData={data}
+            isSuccess={isSuccess}
+            id={id}
+            email={email}
+            isLoading={isLoading}
+            chatViewType={EChatViewType.regular}
+            title="Regular Chat View"
+          />
+          <ChatView
+            messagesData={data}
+            isSuccess={isSuccess}
+            id={id}
+            email={email}
+            isLoading={isLoading}
+            chatViewType={EChatViewType.openAi}
+            title="OpenAI Chat View"
+          />
+        </ChatContainer>
+      )}
+    </>
   );
 };
 
